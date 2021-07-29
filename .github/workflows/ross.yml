@@ -21,7 +21,12 @@ jobs:
   Second_Job:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "Wahoo!"
+      - run: echo "Wahoo!" >> output.txt
+      - name: Upload output file
+        uses: actions/upload-artifact@v2
+        with:
+          name: output-file
+          path: output.txt
 
   Third_Job:
     runs-on: ubuntu-latest
@@ -29,3 +34,8 @@ jobs:
     steps:
       - run: echo "We Waited"
         name: A waiting job
+      - name: Download a single artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: output-file
+      - run: echo output-file 
